@@ -5,7 +5,7 @@ neuron_label = spike_log.neuron_label{neuron_i};
 session_idx = find(strcmp(session_log.session, spike_log.session{neuron_i}));
 
 beh_in = load(fullfile(dirs.raw_data, [spike_log.session{neuron_i} ,'_spk.mat']));
-sdf_in = load(fullfile('/Volumes/Mnemosyne/Codespace/2026-frontal-ramping/_data/sdf/', [neuron_label '.mat']));
+sdf_in = load(fullfile('/Volumes/Mnemosyne/Data/2026_macaque_value/proc/', [neuron_label '.mat']));
 
 
 foreperiod = beh_in.t_evt.stim_on - beh_in.t_evt.fixcross_fix;
@@ -25,6 +25,7 @@ xlim([-200 1500])
 vline(0, 'k-')
 
 subplot(1,3,2); hold on
+plot(-2000:2000, smooth(nanmean(sdf_in.sdf.stim_on(:,:)), 50), 'k', 'LineWidth', 2)
 plot(-2000:2000, smooth(nanmean(sdf_in.sdf.stim_on(ttx.short_fp,:)), 50))
 plot(-2000:2000, smooth(nanmean(sdf_in.sdf.stim_on(ttx.mid_fp,:)), 50))
 plot(-2000:2000, smooth(nanmean(sdf_in.sdf.stim_on(ttx.long_fp,:)), 50))

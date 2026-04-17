@@ -1,9 +1,11 @@
+function spike_log = get_spk_map(dirs)
+
 % Construct output file path once
 outFile = fullfile(dirs.root,'_data','spike_log.csv');
 
 
 if exist(outFile, 'file') == 2
-       % ---- IMPORT PRECREATED CSV ----
+    % ---- IMPORT PRECREATED CSV ----
     spike_log = readtable(outFile);
 else
     % ---- BUILD FROM RAW FILES ----
@@ -72,9 +74,10 @@ else
     spike_log = removevars(spike_log, vars_to_remove);
 
     % Create neuron label: session + "_" + channel
-    spike_log.neuron_label = spike_log.session + "_" + spike_log.ch;
+    spike_log.neuron_label = spike_log.session + "_" + spike_log.ch + "_" + spike_log.clust_id;
 
     % ---- SAVE ----
     writetable(spike_log, outFile, 'WriteRowNames', true);
 
+end
 end
