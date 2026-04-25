@@ -5,6 +5,8 @@ clear all; clc
 % Define key directories
 dirs.root = '/Volumes/Mnemosyne/Codespace/2026-frontal-ramping';
 dirs.raw_data = '/Volumes/Mnemosyne/Data/2026_macaque_value/spk/';
+dirs.proc_data = '/Volumes/Mnemosyne/Data/2026_macaque_value/proc/';
+dirs.figures = '/Volumes/Mnemosyne/Codespace/2026-frontal-ramping/_figures/';
 
 % Add primary directory (and subdirectories) to path
 addpath(genpath(dirs.root))
@@ -35,7 +37,8 @@ area_idx = get_area_neurons(spike_log);
 % Separate out short, medium, long foreperiod
 % (data setup: neuron x time x foreperiod condition) - averaged
 
-foreperiod_analysis
+extract_foreperiod_neurons
+inspect_foreperiod_neurons
 
 % - Individual neurons:
 %   - Condition x {slope, fano factor}
@@ -50,12 +53,13 @@ foreperiod_analysis
 %% Comparison of spiking features between areas
 % ISI
 
+% Spike width
 
 %% Reward/event ramping
 
 
 
-%% Intrinsic timescales
+%% Intrinsic timescales: ramping v other
 
 % https://github.com/RudebeckLab/timescales/tree/main
 
