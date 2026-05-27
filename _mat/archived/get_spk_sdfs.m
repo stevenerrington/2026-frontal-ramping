@@ -21,6 +21,7 @@ parfor session_i = 1:size(session_log,1)
 
         [sdf.fixation, raster.fixation] = get_aligned_sdf(spikes, round(data_in.t_evt.fixcross_fix)*1000, ops); % Align units to trial event (fixation)
         [sdf.stim_on, raster.stim_on] = get_aligned_sdf(spikes, round(data_in.t_evt.stim_on)*1000, ops); % Align units to trial event (target)
+        [sdf.decision, raster.decision] = get_aligned_sdf(spikes, round(data_in.t_evt.resp_fix)*1000, ops); % Align units to trial event (target)
         [sdf.reward, raster.reward] = get_aligned_sdf(spikes, round(data_in.t_evt.rew_on)*1000, ops); % Align units to trial event (reward)
         [sdf.brk_fix, raster.brk_fix] = get_aligned_sdf(spikes, round(data_in.t_evt.brk_fix)*1000, ops); % Align units to trial event (break fixation)
 
