@@ -3,21 +3,21 @@
 % Steven Errington, 2026
 % =========================================================================
 
-linearity_analysis_table = readtable('linearity_analysis.csv');
+fp_linearity_table = readtable('fp_linearity_analysis.csv');
 
 %% ------------------------------------------------------------------------
 % 1. Classify ramping neurons and append flag to analysis_log
 % -------------------------------------------------------------------------
 
 neuron_idx.pos_ramping = find(...
-    linearity_analysis_table.flag  == 1  & ...
-    linearity_analysis_table.slope >  0  & ...
-    linearity_analysis_table.r2    >  0.8);
+    fp_linearity_table.flag  == 1  & ...
+    fp_linearity_table.slope >  0  & ...
+    fp_linearity_table.r2    >  0.8);
 
 neuron_idx.neg_ramping = find(...
-    linearity_analysis_table.flag  == 1  & ...
-    linearity_analysis_table.slope <  0  & ...
-    linearity_analysis_table.r2    >  0.8);
+    fp_linearity_table.flag  == 1  & ...
+    fp_linearity_table.slope <  0  & ...
+    fp_linearity_table.r2    >  0.8);
 
 fprintf('Positive ramp neurons: %i\n', length(neuron_idx.pos_ramping))
 fprintf('Negative ramp neurons: %i\n', length(neuron_idx.neg_ramping))
@@ -325,25 +325,3 @@ function add_region_dividers(region_map)
     end
 end
 
-function [chi2_stat, p_val, df] = chi2_contingency(cont)
-% Chi-square test on an arbitrary contingency matrix (no toolbox required)
-    rowSums  = sum(cont, 2);
-    colSums  = sum(cont, 1);
-    N        = sum(cont(:));
-    expected = (rowSums * colSums) / N;
-    chi2_stat = sum(sum((cont - expected).^2 ./ expected));
-    df        = (size(cont, 1) - 1) * (size(cont, 2) - 1);
-    p_val     = 1 - chi2cdf(chi2_stat, df);
-end
-
-function p_fdr = bh_fdr(p)
-% Benjamini-Hochberg FDR correction (no toolbox required)
-    n = length(p);
-    [p_sorted, sort_idx] = sort(p(:));
-    p_fdr_sorted = p_sorted .* n ./ (1:n)';
-    for k = n-1:-1:1
-        p_fdr_sorted(k) = min(p_fdr_sorted(k), p_fdr_sorted(k+1));
-    end
-    p_fdr           = nan(size(p));
-    p_fdr(sort_idx) = min(p_fdr_sorted, 1);
-end

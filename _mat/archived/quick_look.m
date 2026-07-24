@@ -36,4 +36,4 @@ subplot(1,3,3)
 plot(-2000:2000, smooth(nanmean(sdf_in.sdf.reward(:,:)), 50))
 xlim([-600 200]); vline(0, 'k-')
 
-end
+endw

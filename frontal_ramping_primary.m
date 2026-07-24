@@ -27,18 +27,41 @@ area_idx = get_area_neurons(spike_log);
 
 %% Extraction
 % Extract event-aligned sdfs and rasters
-% get_spk_sdfs % // ! only run to get initial extraction.
+% - Adapted to run on PC cluster (see get_spk_sdfs_PCADAPTER)
+% - Data then transfered back for local processing.
+
+%% Spike width
 
 
 %% Ramping neuron incidence
+analysis_log = spike_log;
+
+extract_foreperiod_neurons    % Foreperiod
+extract_reward_neurons          % Reward
+
+plot_venn_ramping
+
+plot_sdf_fp_ramping
+plot_sdf_fp_ramping_fixon
+
+plot_sdf_rwd_ramping
+
+
+%% Census
+
+
+
+
+
+
+
 
 
 %% Foreperiod ramping
 % Separate out short, medium, long foreperiod
 % (data setup: neuron x time x foreperiod condition) - averaged
-
-extract_foreperiod_neurons
 inspect_foreperiod_neurons
+
 
 % - Individual neurons:
 %   - Condition x {slope, fano factor}
@@ -59,7 +82,10 @@ inspect_foreperiod_neurons
 
 
 
+
 %% Intrinsic timescales: ramping v other
 
 % https://github.com/RudebeckLab/timescales/tree/main
+
+%% Connectivity analyses
 

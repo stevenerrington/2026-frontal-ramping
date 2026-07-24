@@ -30,7 +30,6 @@ parfor session_i = 1:size(session_log,1)
         [sdf.reward, raster.reward] = get_aligned_sdf(spikes, round(data_in.t_evt.rew_on)*1000, ops); % Align units to trial event (reward)
         [sdf.brk_fix, raster.brk_fix] = get_aligned_sdf(spikes, round(data_in.t_evt.brk_fix)*1000, ops); % Align units to trial event (break fixation)
 
-
         data_out = struct('sdf', sdf, 'raster', raster);
         out_filename = [data_in.unit{neuron_i}.session '_' data_in.unit{neuron_i}.ch '.mat'];
         
@@ -38,3 +37,23 @@ parfor session_i = 1:size(session_log,1)
 
     end
 end
+
+
+%% Waveform extraction
+% Loop through sessions
+waveform_array = [];
+count = 0;
+
+for session_i = 1:size(session_log,1)
+    disp(['Loading session ' int2str(session_i) ' of ' int2str(size(session_log,1))])
+
+    data_in = load(fullfile(dirs.raw_data,[session_log.session{session_i}, '_spk.mat']));
+
+    % Align spikes and generate SDF/rasters
+    for neuron_i = 1:size(data_in.unit,2)
+        count = count + 1;
+        waveform_array(count,:) = data_in.unit{neuron_i}.avg_waveform;
+    end
+end
+
+save(fullfile('/Volumes/Mnemosyne/Codespace/2026-frontal-ramping/_data','waveform_array'),'waveform_array', '-v7.3')
